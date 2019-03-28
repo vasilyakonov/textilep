@@ -2,18 +2,29 @@ import random
 import wand
 from fractions import Fraction 
 from flat import rgb, font, shape, strike, document, command, image
+import json
 
 import os, sys
 from PIL import Image
 
 from PIL import Image
 
+
+flowers_response = open('flowers.json').read()
+the_flowers = json.loads(flowers_response)
+flowers_list = []
+
+
+for f in the_flowers:
+   flowers_list.append(f)
+#print len(flowers_list)
+
 basewidth = 20
-img = Image.open('flower8.png')
+img = Image.open('%s' % random.choice(tuple(flowers_list)))
 wpercent = (basewidth/float(img.size[0]))
 hsize = int((float(img.size[1])*float(wpercent)))
 img = img.resize((basewidth,hsize), Image.ANTIALIAS)
-img.save('flower8.png')
+img.save('flower.png')
 
 f = Fraction(1, 2)
 
@@ -22,14 +33,14 @@ red = rgb(255, 0, 0)
 #lato = font.open('Lato-Reg.otf')
 figure = shape().stroke(red).width(0.5)
 #headline = strike(lato).color(red).size(20, 24)
-image = image.open('flower8.png')
+image = image.open('flower.png')
 pages = 5
-elements = 12
-d = document(190.5, 190.5, 'mm')
+elements = 50
+d = document(200, 200, 'mm')
 for page in range(pages):
   p = d.addpage()
   for element in range(elements):
-   p.place(image).position(random.randint(1,100),random.randint(1,100))
+   p.place(image).position(random.randint(1,200),random.randint(1,200))
   #p.place(figure.circle(50, 50, 20)).position(random.randint(1,100),random.randint(1,100))
   
 d.pdf('hello.pdf')
