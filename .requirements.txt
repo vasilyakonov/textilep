@@ -1,3 +1,5 @@
 flask
 flat
 wand
+pillow
+imageio
